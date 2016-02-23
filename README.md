@@ -1,0 +1,2 @@
+# magsimula
+getting started
