@@ -1,0 +1,14 @@
+# Before running 'vagrant up', remember to run 'vagrant plugin install vagrant-vbguest'
+# and check to see if you have the latest version of VirtualBox
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "https://boxes.cs.ucr.edu/boxes/centos/7/cs061.box"
+  config.vm.synced_folder ".", "/cs61", type: "virtualbox", SharedFoldersEnableSymlinksCreate: false
+  config.ssh.forward_x11 = true
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
+    vb.memory = "2048"
+  end
+  config.vm.provision "shell", inline: "systemctl stop packagekit.service && systemctl disable packagekit.service"
+  config.vm.provision "shell", inline: "sleep 5 && yum -y update", run: "always"
+end
